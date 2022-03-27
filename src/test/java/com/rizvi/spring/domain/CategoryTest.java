@@ -18,9 +18,9 @@ public class CategoryTest {
 
     @Test
     public void getId() throws Exception {
-        Long ioValue = 4L;
-        category.setId(4L);
-        assertEquals(ioValue, category.getId());
+        Long idValue = 4L;
+        category.setId(idValue);
+        assertEquals(idValue, category.getId());
     }
 
     @Test

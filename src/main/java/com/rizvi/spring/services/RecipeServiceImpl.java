@@ -17,15 +17,16 @@ import java.util.Set;
 @Slf4j
 public class RecipeServiceImpl implements RecipeService{
 
-    private final RecipeRepository recipeRepository;
-    private final RecipeCommandToRecipe recipeCommandToRecipe;
-    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    private  RecipeRepository recipeRepository;
+    private RecipeCommandToRecipe recipeCommandToRecipe;
+    private RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeCommandToRecipe = recipeCommandToRecipe;
         this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
+
 
 
     @Override
@@ -36,13 +37,11 @@ public class RecipeServiceImpl implements RecipeService{
         recipeRepository.findAll()
                         .iterator()
                         .forEachRemaining(recipeSet::add);
-
         return recipeSet;
     }
 
     public Recipe findById(Long l){
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
-
         if(!recipeOptional.isPresent()){
             throw  new RuntimeException("Recipe not found");
         }
@@ -68,7 +67,7 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     public void deleteById(Long id) {
         recipeRepository.deleteById(id);
-    }
 
+    }
 
 }

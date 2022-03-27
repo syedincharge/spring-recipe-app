@@ -20,6 +20,7 @@ import java.util.Optional;
  * Created by jt on 11/30/17.
  */
 
+
 @Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {

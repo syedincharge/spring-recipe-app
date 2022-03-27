@@ -37,7 +37,7 @@ public class IndexControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         indexController = new IndexController(recipeService);
     }
@@ -57,9 +57,12 @@ public class IndexControllerTest {
         //given
         Set<Recipe> recipes= new HashSet<>();
         recipes.add(new Recipe());
-        Recipe recipe = new Recipe();
-        recipe.setId(10L);
-        recipes.add(recipe);
+      Recipe recipe = new Recipe();
+      recipe.setId(3L);
+       recipes.add(new Recipe());
+       recipes.add(new Recipe());
+       recipes.add(recipe);
+
 
         when(recipeService.getRecipes()).thenReturn(recipes);
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
@@ -67,13 +70,13 @@ public class IndexControllerTest {
         //when
         String viewName = indexController.getIndexPage(model);
 
-
         //then
-        assertEquals("index", viewName);
-        verify(recipeService, times(1)).getRecipes();
-        verify(model, times(1)).addAttribute(eq("recipes"), anySet());
-       //verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
-      //  Set<Recipe> setInController = argumentCaptor.getValue();
-      //  assertEquals(2, setInController.size());
+         assertEquals("index", viewName);
+         verify(recipeService, times(1)).getRecipes();
+        // verify(model, times(1)).addAttribute(eq("recipes"), anySet());
+
+        verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
+        Set<Recipe> setInController = argumentCaptor.getValue();
+        assertEquals(4, setInController.size());
     }
 }

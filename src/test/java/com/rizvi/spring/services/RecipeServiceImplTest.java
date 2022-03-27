@@ -23,8 +23,8 @@ class RecipeServiceImplTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-   //      recipeService = new RecipeServiceImpl(recipeRepository);
+        MockitoAnnotations.openMocks(this);
+        recipeService = new RecipeServiceImpl(recipeRepository);
     }
 
     @Test
@@ -34,6 +34,7 @@ class RecipeServiceImplTest {
 
         HashSet recipeData = new HashSet();
         recipeData.add(recipe);
+
 
         when(recipeService.getRecipes()).thenReturn(recipeData);
 
