@@ -60,7 +60,7 @@ public class IndexControllerTest {
       Recipe recipe = new Recipe();
       recipe.setId(3L);
        recipes.add(new Recipe());
-       recipes.add(new Recipe());
+       //recipes.add(new Recipe());
        recipes.add(recipe);
 
 
@@ -77,6 +77,6 @@ public class IndexControllerTest {
 
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         Set<Recipe> setInController = argumentCaptor.getValue();
-        assertEquals(4, setInController.size());
+        assertEquals(3, setInController.size());
     }
 }
