@@ -3,6 +3,7 @@ package com.rizvi.spring.controllers;
 import com.rizvi.spring.commands.RecipeCommand;
 import com.rizvi.spring.domain.Recipe;
 import com.rizvi.spring.exceptions.NotFoundException;
+import com.rizvi.spring.repositories.RecipeRepository;
 import com.rizvi.spring.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeControllerTest {
     @Mock
     private RecipeService recipeService;
+
+    @Mock
+    private RecipeRepository recipeRepository;
 
     RecipeController controller;
 
@@ -53,9 +59,12 @@ class RecipeControllerTest {
     }
     @Test
     void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        //Optional<Recipe> recipeOptional = Optional.empty();
         when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
 
-        mockMvc.perform(get("/recipe/2/show"))
+        mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isNotFound());
     }
 
