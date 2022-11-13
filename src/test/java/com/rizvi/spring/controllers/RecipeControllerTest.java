@@ -40,7 +40,9 @@ class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
 
         controller = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -58,14 +60,25 @@ class RecipeControllerTest {
                 .andExpect(model().attributeExists("recipe"));
     }
     @Test
-    void testGetRecipeNotFound() throws Exception {
+    void testGetRecipeNotFoundError() throws Exception {
+
+        mockMvc.perform(get("/recipe/asdf/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
+    @Test
+    void testGetNumberFormatError(Exception exception) throws Exception{
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         //Optional<Recipe> recipeOptional = Optional.empty();
         when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/recipe/1/show"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+
+
     }
 
     @Test
