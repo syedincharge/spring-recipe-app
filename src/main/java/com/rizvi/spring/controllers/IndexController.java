@@ -13,6 +13,7 @@ public class IndexController {
     private RecipeService recipeService;
 
     public IndexController(RecipeService recipeService) {
+
         this.recipeService = recipeService;
     }
 
